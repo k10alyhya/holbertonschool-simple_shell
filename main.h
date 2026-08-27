@@ -10,5 +10,6 @@
 extern char **environ;
 
 void execute_command(char *line, char *program_name);
+char *trim_spaces(char *line);
 
 #endif

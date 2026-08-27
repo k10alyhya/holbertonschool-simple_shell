@@ -10,6 +10,7 @@
 int main(int argc, char **argv)
 {
 	char *line = NULL;
+	char *command;
 	size_t size = 0;
 	ssize_t chars_read;
 
@@ -31,10 +32,12 @@ int main(int argc, char **argv)
 		if (chars_read > 0 && line[chars_read - 1] == '\n')
 			line[chars_read - 1] = '\0';
 
-		if (line[0] == '\0')
+		command = trim_spaces(line);
+
+		if (command[0] == '\0')
 			continue;
 
-		execute_command(line, argv[0]);
+		execute_command(command, argv[0]);
 	}
 
 	free(line);
