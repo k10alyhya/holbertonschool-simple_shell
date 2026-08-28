@@ -12,5 +12,9 @@ extern char **environ;
 
 void execute_command(char *line, char *program_name);
 char *trim_spaces(char *line);
+char *build_full_path(char *dir, char *command);
+char *_getenv(const char *name);
+char *get_path(char *command);
+
 
 #endif
