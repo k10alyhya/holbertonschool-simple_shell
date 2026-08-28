@@ -42,9 +42,11 @@ void execute_command(char *line, char *program_name)
 	if (actual_path == NULL)
 	{
 		print_error(program_name, args[0]);
-		/* في حال كان غير تفاعلي (Piped)، يجب الخروج بكود 127 */
 		if (!isatty(STDIN_FILENO))
+		{
+			fire(line);
 			exit(127);
+		}
 		return;
 	}
 
