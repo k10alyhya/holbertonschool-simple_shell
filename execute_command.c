@@ -14,7 +14,7 @@ void print_error(char *prog, char *cmd)
 }
 
 /**
- * execute_command - Executes a command in a child process
+ * execute_command - Executes a command or built-in in a child process
  * @line: Command line to execute
  * @program_name: Name of the shell program
  */
@@ -23,7 +23,8 @@ void execute_command(char *line, char *program_name)
 	char *args[64];
 	char *token;
 	char *actual_path;
-	int i = 0;
+	int i = 0, status;
+	static int last_status = 0;
 	pid_t pid;
 
 	token = strtok(line, " \t");
@@ -35,20 +36,21 @@ void execute_command(char *line, char *program_name)
 	}
 	args[i] = NULL;
 
-		if (args[0] == NULL)
-			return;
-		
-		if (strcmp (args[0], "exit") == 0)
-		{
-			free (line);
-			exit (0);
-		}
+	if (args[0] == NULL)
+		return;
 
+	
+	if (strcmp(args[0], "exit") == 0)
+	{
+		free(line);
+		exit(last_status);
+	}
 
 	actual_path = get_path(args[0]);
 	if (actual_path == NULL)
 	{
 		print_error(program_name, args[0]);
+		last_status = 127;
 		if (!isatty(STDIN_FILENO))
 		{
 			free(line);
@@ -71,12 +73,16 @@ void execute_command(char *line, char *program_name)
 		{
 			perror(program_name);
 			free(actual_path);
+			free(line);
 			exit(EXIT_FAILURE);
 		}
 	}
 	else
 	{
-		wait(NULL);
+		
+		wait(&status);
+		if (WIFEXITED(status))
+			last_status = WEXITSTATUS(status);
 		free(actual_path);
 	}
 }
