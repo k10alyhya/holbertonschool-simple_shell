@@ -44,7 +44,7 @@ void execute_command(char *line, char *program_name)
 		print_error(program_name, args[0]);
 		if (!isatty(STDIN_FILENO))
 		{
-			fire(line);
+			free(line);
 			exit(127);
 		}
 		return;
