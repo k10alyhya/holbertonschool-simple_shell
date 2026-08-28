@@ -37,6 +37,13 @@ void execute_command(char *line, char *program_name)
 
 	if (args[0] == NULL)
 		return;
+		
+		if (strcmp (args[0], "exit") == 0)
+		{
+			free (line);
+			exit (0);
+		}
+
 
 	actual_path = get_path(args[0]);
 	if (actual_path == NULL)
