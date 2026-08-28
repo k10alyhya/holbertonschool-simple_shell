@@ -35,8 +35,8 @@ void execute_command(char *line, char *program_name)
 	}
 	args[i] = NULL;
 
-	if (args[0] == NULL)
-		return;
+		if (args[0] == NULL)
+			return;
 		
 		if (strcmp (args[0], "exit") == 0)
 		{
