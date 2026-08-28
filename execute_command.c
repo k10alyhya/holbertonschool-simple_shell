@@ -2,8 +2,8 @@
 
 /**
  * print_error - Prints the standard shell error message to stderr
- * @prog: Program name (e.g. ./hsh)
- * @cmd: Command name (e.g. ls)
+ * @prog: Program name
+ * @cmd: Command name
  */
 void print_error(char *prog, char *cmd)
 {
@@ -23,8 +23,8 @@ void execute_command(char *line, char *program_name)
 	char *args[64];
 	char *token;
 	char *actual_path;
-	int i = 0, status;
-	static int last_status = 0;
+	int i = 0, j, status;
+	static int last_status;
 	pid_t pid;
 
 	token = strtok(line, " \t");
@@ -39,11 +39,21 @@ void execute_command(char *line, char *program_name)
 	if (args[0] == NULL)
 		return;
 
-	
 	if (strcmp(args[0], "exit") == 0)
 	{
 		free(line);
 		exit(last_status);
+	}
+
+	if (strcmp(args[0], "env") == 0)
+	{
+		for (j = 0; environ[j] != NULL; j++)
+		{
+			write(STDOUT_FILENO, environ[j], strlen(environ[j]));
+			write(STDOUT_FILENO, "\n", 1);
+		}
+		last_status = 0;
+		return;
 	}
 
 	actual_path = get_path(args[0]);
@@ -79,7 +89,6 @@ void execute_command(char *line, char *program_name)
 	}
 	else
 	{
-		
 		wait(&status);
 		if (WIFEXITED(status))
 			last_status = WEXITSTATUS(status);
