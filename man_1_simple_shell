@@ -1,0 +1,79 @@
+.TH SIMPLE_SHELL 1 "August 2026" "Simple Shell" "User Commands"
+
+.SH NAME
+simple_shell \- a simple UNIX command interpreter
+
+.SH SYNOPSIS
+.B ./hsh
+
+.SH DESCRIPTION
+Simple Shell is a basic UNIX command interpreter written in C.
+
+It reads commands from standard input, parses command arguments,
+searches for executable commands using the PATH environment variable,
+creates child processes, and executes programs using execve().
+
+The shell supports both interactive and non-interactive modes.
+
+.SH BUILT-IN COMMANDS
+
+.TP
+.B exit
+Exits the shell.
+
+.TP
+.B env
+Prints the current environment variables.
+
+.SH INTERACTIVE MODE
+
+Run:
+
+.B ./hsh
+
+Example:
+
+.nf
+$ ./hsh
+$ ls
+$ exit
+.fi
+
+.SH NON-INTERACTIVE MODE
+
+Example:
+
+.nf
+$ echo "/bin/ls" | ./hsh
+.fi
+
+.SH FEATURES
+
+The shell supports:
+
+.IP \(bu 2
+Interactive and non-interactive execution
+.IP \(bu 2
+Commands with arguments
+.IP \(bu 2
+PATH command lookup
+.IP \(bu 2
+The exit built-in
+.IP \(bu 2
+The env built-in
+.IP \(bu 2
+End-of-file handling
+.IP \(bu 2
+Basic error handling
+
+.SH COMPILATION
+
+.nf
+gcc -Wall -Werror -Wextra -pedantic -std=gnu89 *.c -o hsh
+.fi
+
+.SH AUTHORS
+
+Abdullah Anas Almuqbali
+
+Khaled Fahd Alyahya
